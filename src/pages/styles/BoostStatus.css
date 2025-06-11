@@ -1,11 +1,14 @@
 .boost-box{
-    margin: 2rem;
+    margin: 0 4rem 4rem 4rem;
+    background-color: #fff;
 }
 
-.boost-box p{
+.boost-box h2{
+    font-size: 2rem;
     margin-bottom: 1rem;
 }
 
-.btn{
-    
+.boost-box p{
+    margin-bottom: 1.5rem;
 }
+

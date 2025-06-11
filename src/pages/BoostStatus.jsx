@@ -22,8 +22,8 @@ const BoostStatusPage = () => {
         <div className='boost-box' style={{ textAlign: 'center' }}>
             {isSuccess ? (
                 // SUCCESS UI
-                <div style={{ border: '2px solid var(--primary-green)', padding: '2rem', borderRadius: '8px' }}>
-                    <h2 style={{ color: 'var(--primary-green)' }}>✅ Boost Successful!</h2>
+                <div style={{ border: '2px solid #2E7D32', padding: '2rem', borderRadius: '8px' }}>
+                    <h2 style={{ color: '#2E7D32' }}>✅ Boost Successful!</h2>
                     <p>
                         Thank you for your support! Your story, "{storyId}", has been boosted 
                         and will now have extra visibility in the community.
