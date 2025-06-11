@@ -28,7 +28,7 @@ const BoostButton = ({ storyId }) => {
     };
 
     return (
-        <div style={{ textAlign: 'center', border: '1px solid #ddd', padding: '1rem', borderRadius: '8px' }}>
+        <div style={{ backgroundColor: 'white', textAlign: 'center', border: '1px solid #ddd', padding: '1rem', borderRadius: '8px' }}>
              <h3 style={{ marginTop: 0, fontSize: '1.2rem', color: 'var(--neutral-charcoal)'}}>Boost this Story</h3>
              <p style={{fontSize: '0.9rem', color: '#666'}}>Help this tale reach more fans!</p>
             <button
