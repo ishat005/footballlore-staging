@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+:root {
+  --green: #2E7D32;
+  --gold: #FFD700;
+  --gray: #424242;
+  --white: #FFFFFF;
+  --font-headline: 'Oswald', 'Montserrat', sans-serif;
+  --font-body: 'Roboto', sans-serif;
+  --padding: 1rem;
+  --max-width: 1200px;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+}
+
+@layer base {
+  body {
+    font-family: "Open Sans", sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Roboto Slab", serif;
+    font-weight: 700;
+  }
+}
+
+@layer components {
+  .goal-frame {
+    border: 2px solid #2e7d32;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  .goal-frame::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 4px;
+    background: #2e7d32;
+  }
+
+  .pitch-lines {
+    background-image: linear-gradient(90deg, rgba(46, 125, 50, 0.1) 1px, transparent 1px),
+      linear-gradient(rgba(46, 125, 50, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .story-card {
+    @apply goal-frame bg-white p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1;
+  }
+
+  .btn-primary {
+    @apply bg-football-green text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors;
+  }
+
+  .btn-ghost {
+    @apply border border-football-green text-football-green px-6 py-3 rounded-lg font-semibold hover:bg-football-green hover:text-white transition-colors;
+  }
+}
