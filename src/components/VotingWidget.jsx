@@ -8,6 +8,12 @@ const VotingWidget = ({ storyId, userEmail }) => {
     const [isLoading, setIsLoading] = useState(true); // Is data being fetched?
     const [error, setError] = useState('');
 
+    // ✅ NEW: Function to simulate a boost by manually increasing the vote count
+    const handleBoost = () => {
+        const boostAmount = 10; // Simulate a $5 boost = +10 votes
+        setVotes(prev => prev + boostAmount);
+    };
+
     // Function to fetch the current vote count from the API
     const fetchVoteCount = async () => {
         try {
@@ -21,20 +27,18 @@ const VotingWidget = ({ storyId, userEmail }) => {
         }
     };
 
-    // The useEffect hook runs when the component first mounts.
-    // It's the perfect place to fetch initial data.
     useEffect(() => {
         fetchVoteCount();
-    }, [storyId]); // The [storyId] dependency means this effect will re-run if the storyId prop ever changes.
+    }, [storyId]);
 
     // Function to handle the vote button click
     const handleVote = async () => {
-        setIsLoading(true); // Disable button and show loading state
+        setIsLoading(true);
         setError('');
         try {
             await postStoryVote({ storyId, email: userEmail });
-            setIsVoted(true); // Mark as voted to disable the button permanently
-            fetchVoteCount(); // Re-fetch the votes to show the new count
+            setIsVoted(true);
+            fetchVoteCount(); // Refresh vote count after voting
         } catch (err) {
             setError('Vote failed. You may have already voted.');
             setIsLoading(false);
@@ -47,14 +51,24 @@ const VotingWidget = ({ storyId, userEmail }) => {
             <div className="vote-count">
                 {isLoading && votes === 0 ? '...' : votes}
             </div>
+
             <button
                 onClick={handleVote}
-                // The button is disabled if it's loading OR if the user has already successfully voted.
                 disabled={isLoading || isVoted}
                 className="btn btn-ghost"
             >
                 {isVoted ? 'Voted!' : 'Vote for This Tale'}
             </button>
+
+            {/* ✅ OPTIONAL: Test button to simulate a boost */}
+            <button
+                onClick={handleBoost}
+                className="btn btn-secondary"
+                style={{ marginTop: '10px' }}
+            >
+                💸 Simulate Boost
+            </button>
+
             {error && <p className="widget-error">{error}</p>}
         </div>
     );
