@@ -1,7 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "*.{js,ts,jsx,tsx,mdx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "*.{js,ts,jsx,tsx,mdx}",
+  ],
   theme: {
     extend: {
       colors: {
@@ -38,9 +42,12 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        "football-green": "#2E7D32",
-        "football-yellow": "#FFEB3B",
-        charcoal: "#333333",
+        // "football-green": "#2E7D32",
+        // "football-yellow": "#FFEB3B",
+        // charcoal: "#333333",
+        "football-green": "var(--green)",
+        "football-yellow": "var(--gold)",
+        charcoal: "var(--gray)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -54,4 +61,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};

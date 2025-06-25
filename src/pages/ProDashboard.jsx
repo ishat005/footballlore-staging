@@ -1,14 +1,37 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useUser } from "../context/UserContext"
-import { Crown, TrendingUp, Star, Calendar, CreditCard, BarChart3 } from "lucide-react"
+import { useState, useEffect } from "react";
+import { useUser } from "../context/UserContext";
+import {
+  Crown,
+  TrendingUp,
+  Star,
+  Calendar,
+  CreditCard,
+  BarChart3,
+} from "lucide-react";
 
 const ProDashboard = () => {
-  const { user, isPro, updateProStatus } = useUser()
-  const [proMetrics, setProMetrics] = useState(null)
-  const [isStartingTrial, setIsStartingTrial] = useState(false)
-  const [isSubscribing, setIsSubscribing] = useState(false)
+  const { user, isPro, updateProStatus } = useUser();
+  const [proMetrics, setProMetrics] = useState(null);
+  const [isStartingTrial, setIsStartingTrial] = useState(false);
+  const [isSubscribing, setIsSubscribing] = useState(false);
+
+  const [ticketCount, setTicketCount] = useState(0);
+  const [error, setError] = useState(null);
+
+  const handleRaffleEntry = async () => {
+    try {
+      const response = await postRaffleEntry({ email: "user@example.com" });
+      if (response.success) {
+        setTicketCount(response.ticketCount);
+      } else {
+        throw new Error("Failed to update ticket count");
+      }
+    } catch (error) {
+      setError(`Failed to update ticket count: ${error.message}`);
+    }
+  };
 
   useEffect(() => {
     // Simulate fetching pro metrics
@@ -21,13 +44,13 @@ const ProDashboard = () => {
         voteCreditsUsed: 45,
         topTalesAccess: true,
       },
-    }
-    setProMetrics(mockMetrics)
-  }, [])
+    };
+    setProMetrics(mockMetrics);
+  }, []);
 
   // Module I: FootballPro Subscription Flow
   const handleStartTrial = async () => {
-    setIsStartingTrial(true)
+    setIsStartingTrial(true);
 
     try {
       const response = await fetch("/api/pro-trial", {
@@ -38,24 +61,28 @@ const ProDashboard = () => {
         body: JSON.stringify({
           email: user?.email || "user@example.com",
         }),
-      })
+      });
 
       if (response.ok) {
-        const data = await response.json()
+        const data = await response.json();
         setTimeout(() => {
-          updateProStatus(true)
-          setIsStartingTrial(false)
-          alert(`Trial started! Your trial ends on ${new Date(data.trialEnds).toLocaleDateString()}`)
-        }, 2000)
+          updateProStatus(true);
+          setIsStartingTrial(false);
+          alert(
+            `Trial started! Your trial ends on ${new Date(
+              data.trialEnds
+            ).toLocaleDateString()}`
+          );
+        }, 2000);
       }
     } catch (error) {
-      console.error("Trial start failed:", error)
-      setIsStartingTrial(false)
+      console.error("Trial start failed:", error);
+      setIsStartingTrial(false);
     }
-  }
+  };
 
   const handleSubscribe = async () => {
-    setIsSubscribing(true)
+    setIsSubscribing(true);
 
     try {
       const response = await fetch("/api/create-subscription", {
@@ -67,27 +94,29 @@ const ProDashboard = () => {
           priceId: "footballpro_monthly",
           email: user?.email || "user@example.com",
         }),
-      })
+      });
 
       if (response.ok) {
         setTimeout(() => {
-          updateProStatus(true)
-          setIsSubscribing(false)
-          alert("Subscription activated! Welcome to FootballPro!")
-        }, 2000)
+          updateProStatus(true);
+          setIsSubscribing(false);
+          alert("Subscription activated! Welcome to FootballPro!");
+        }, 2000);
       }
     } catch (error) {
-      console.error("Subscription failed:", error)
-      setIsSubscribing(false)
+      console.error("Subscription failed:", error);
+      setIsSubscribing(false);
     }
-  }
+  };
 
   if (!isPro) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <Crown className="h-16 w-16 text-football-yellow mx-auto mb-4" />
-          <h1 className="text-4xl font-headline font-bold text-charcoal mb-4">FootballPro Membership</h1>
+          <h1 className="text-4xl font-headline font-bold text-charcoal mb-4">
+            FootballPro Membership
+          </h1>
           <p className="text-lg font-body text-gray-600">
             Unlock premium features and take your storytelling to the next level
           </p>
@@ -95,7 +124,9 @@ const ProDashboard = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           <div className="story-card">
-            <h3 className="text-2xl font-headline font-bold text-charcoal mb-4">Free Trial</h3>
+            <h3 className="text-2xl font-headline font-bold text-charcoal mb-4">
+              Free Trial
+            </h3>
             <ul className="space-y-3 mb-6">
               <li className="flex items-center space-x-3">
                 <Star className="h-5 w-5 text-football-green" />
@@ -118,6 +149,7 @@ const ProDashboard = () => {
               onClick={handleStartTrial}
               disabled={isStartingTrial}
               className="w-full btn-ghost disabled:opacity-50"
+              aria-label="Start 7-day free trial for FootballPro"
             >
               {isStartingTrial ? "Starting Trial..." : "Start Free Trial"}
             </button>
@@ -126,7 +158,9 @@ const ProDashboard = () => {
           <div className="story-card border-2 border-football-green">
             <div className="flex items-center space-x-2 mb-4">
               <Crown className="h-6 w-6 text-football-yellow" />
-              <h3 className="text-2xl font-headline font-bold text-charcoal">FootballPro</h3>
+              <h3 className="text-2xl font-headline font-bold text-charcoal">
+                FootballPro
+              </h3>
             </div>
             <div className="text-3xl font-headline font-bold text-football-green mb-2">
               $10<span className="text-lg text-gray-600">/month</span>
@@ -157,6 +191,7 @@ const ProDashboard = () => {
               onClick={handleSubscribe}
               disabled={isSubscribing}
               className="w-full btn-primary disabled:opacity-50"
+              aria-label="Subscribe to FootballPro monthly plan"
             >
               {isSubscribing ? "Processing..." : "Subscribe Now"}
             </button>
@@ -165,28 +200,36 @@ const ProDashboard = () => {
 
         {proMetrics && (
           <div className="story-card">
-            <h3 className="text-xl font-headline font-bold text-charcoal mb-4">FootballPro Community Stats</h3>
+            <h3 className="text-xl font-headline font-bold text-charcoal mb-4">
+              FootballPro Community Stats
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="text-center">
-                <div className="text-2xl font-headline font-bold text-football-green mb-2">{proMetrics.trials}</div>
+                <div className="text-2xl font-headline font-bold text-football-green mb-2">
+                  {proMetrics.trials}
+                </div>
                 <p className="text-gray-600">Active Trials</p>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-headline font-bold text-football-green mb-2">{proMetrics.activeSubs}</div>
+                <div className="text-2xl font-headline font-bold text-football-green mb-2">
+                  {proMetrics.activeSubs}
+                </div>
                 <p className="text-gray-600">Pro Members</p>
               </div>
             </div>
           </div>
         )}
       </div>
-    )
+    );
   }
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex items-center space-x-3 mb-8">
         <Crown className="h-8 w-8 text-football-yellow" />
-        <h1 className="text-3xl font-headline font-bold text-charcoal">Pro Dashboard</h1>
+        <h1 className="text-3xl font-headline font-bold text-charcoal">
+          Pro Dashboard
+        </h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -204,12 +247,37 @@ const ProDashboard = () => {
             {proMetrics?.monthlyStats.voteCreditsUsed || 0}
           </div>
           <p className="text-gray-600">Vote Credits Used</p>
+
+          <button
+            onClick={handleRaffleEntry}
+            className="w-full btn-ghost"
+            aria-label="Enter the monthly vote credit raffle"
+          >
+            Enter Raffle
+          </button>
+          {ticketCount > 0 && (
+            <div className="text-2xl font-headline font-bold text-charcoal mb-1">
+              Ticket Count: {ticketCount}
+            </div>
+          )}
+          {error && (
+            <div className="text-lg font-body text-red-600">{error}</div>
+          )}
         </div>
 
         <div className="story-card text-center">
           <Calendar className="h-8 w-8 text-football-green mx-auto mb-3" />
           <div className="text-lg font-headline font-bold text-charcoal mb-1">
-            {proMetrics?.nextBillingDate ? new Date(proMetrics.nextBillingDate).toLocaleDateString() : "N/A"}
+            {proMetrics?.nextBillingDate
+              ? new Date(proMetrics.nextBillingDate).toLocaleDateString(
+                  "en-US",
+                  {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  }
+                )
+              : "N/A"}
           </div>
           <p className="text-gray-600">Next Billing Date</p>
         </div>
@@ -224,7 +292,9 @@ const ProDashboard = () => {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Your Stories Performance</span>
-              <span className="font-semibold text-football-green">Above Average</span>
+              <span className="font-semibold text-football-green">
+                Above Average
+              </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Community Engagement</span>
@@ -245,7 +315,9 @@ const ProDashboard = () => {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Plan</span>
-              <span className="font-semibold text-football-green">FootballPro Monthly</span>
+              <span className="font-semibold text-football-green">
+                FootballPro Monthly
+              </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Status</span>
@@ -253,14 +325,21 @@ const ProDashboard = () => {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Monthly Credits</span>
-              <span className="font-semibold text-football-green">10 Votes</span>
+              <span className="font-semibold text-football-green">
+                10 Votes
+              </span>
             </div>
-            <button className="w-full btn-ghost text-sm">Manage Subscription</button>
+            <button
+              className="w-full btn-ghost text-sm"
+              aria-label="Manage your FootballPro subscription settings"
+            >
+              Manage Subscription
+            </button>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProDashboard
+export default ProDashboard;

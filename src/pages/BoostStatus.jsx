@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import "./styles/BoostStatus.css"
 
+
 // This is a custom hook to make reading URL query parameters easier.
 // It's a clean and reusable pattern.
 function useQuery() {

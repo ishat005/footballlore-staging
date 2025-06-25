@@ -2,15 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 :root {
-  --green: #2E7D32;
-  --gold: #FFD700;
+  --green: #1b5e20; /* Darker green for better contrast (WCAG AA compliant) */
+  --gold: #ffd700;
   --gray: #424242;
-  --white: #FFFFFF;
-  --font-headline: 'Oswald', 'Montserrat', sans-serif;
-  --font-body: 'Roboto', sans-serif;
+  --white: #ffffff;
+  --font-headline: "Oswald", "Montserrat", sans-serif;
+  --font-body: "Roboto", sans-serif;
   --padding: 1rem;
   --max-width: 1200px;
   --card-shadow: rgba(0, 0, 0, 0.1);
@@ -51,7 +49,11 @@
   }
 
   .pitch-lines {
-    background-image: linear-gradient(90deg, rgba(46, 125, 50, 0.1) 1px, transparent 1px),
+    background-image: linear-gradient(
+        90deg,
+        rgba(46, 125, 50, 0.1) 1px,
+        transparent 1px
+      ),
       linear-gradient(rgba(46, 125, 50, 0.1) 1px, transparent 1px);
     background-size: 20px 20px;
   }
@@ -61,10 +63,10 @@
   }
 
   .btn-primary {
-    @apply bg-football-green text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors;
+    @apply bg-football-green text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors;
   }
 
   .btn-ghost {
-    @apply border border-football-green text-football-green px-6 py-3 rounded-lg font-semibold hover:bg-football-green hover:text-white transition-colors;
+    @apply border-2 border-football-green text-football-green px-6 py-3 rounded-lg font-semibold hover:bg-football-green hover:text-white transition-colors;
   }
 }
